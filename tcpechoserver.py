@@ -32,7 +32,7 @@ def parse_recv_msg(msg):
         msg += '\r\n'
         return msg
 
-    # its json, but is it one of our message types
+    # its json, but is it one of our message types?
     if parsed_json['msg_type'] == 'status':
         msg = json.dumps({"msg_type": "status", "server_status": "ok"})
         msg += '\r\n'  # adding simply since i'm testing with telnet
@@ -43,6 +43,7 @@ def parse_recv_msg(msg):
         msg += '\r\n'  # adding simply since i'm testing with telnet
         return msg
 
+    # Its json, but not one of our message types.
     msg = "unrecognized json\r\n"
     return msg
 
@@ -77,6 +78,7 @@ def main(argv):
                 # send back server status
                 msg = parse_recv_msg(msg)
 
+                # Send back response to client
                 sock_connected.sendall(msg)
         else:
             # This is the parent
